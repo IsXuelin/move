@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+datasource:
+  driverName: mysql
+  host: localhost
+  port: 3306
+  database: move
+  username: root
+  password: caoxuelin
+  charset: utf8
+  loc:  Asia/Shanghai
