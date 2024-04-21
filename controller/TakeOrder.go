@@ -23,8 +23,8 @@ func TakeOrder(ctx *gin.Context) {
 		response.Fail(ctx, http.StatusBadRequest, "Invalid Parameters")
 		return
 	}
-
-	if !validateTakeOrderRequest(ctx, takeOrderRequest.Status) {
+	status, err := validateTakeOrderRequest(ctx, takeOrderRequest.Status)
+	if err == false {
 		return
 	}
 	db := common.GetDB()
@@ -40,14 +40,14 @@ func TakeOrder(ctx *gin.Context) {
 		return
 	}
 	alterField := make(map[string]interface{})
-	alterField["status"] = takeOrderRequest.Status
+	alterField["status"] = status
+
 	result := db.Model(&model.Orders{}).Where("order_id = ? and status = ?", orderId, common.STATUS_UNASSIGNED).Update(alterField)
 	//TODO update DriverID
 	if result.Error != nil {
 		response.Fail(ctx, http.StatusInternalServerError, result.Error.Error())
 		return
 	}
-
 	if result.RowsAffected == 1 {
 		response.Success(ctx, gin.H{
 			"status": "SUCCESS",
@@ -60,10 +60,10 @@ func TakeOrder(ctx *gin.Context) {
 	return
 }
 
-func validateTakeOrderRequest(ctx *gin.Context, status string) bool {
+func validateTakeOrderRequest(ctx *gin.Context, status string) (int, bool) {
 	if status != "TAKEN" {
 		response.Fail(ctx, http.StatusBadRequest, "Invalid Parameters: status")
-		return false
+		return 0, false
 	}
-	return true
+	return 1, true
 }

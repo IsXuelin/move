@@ -6,7 +6,7 @@ import (
 
 type Orders struct {
 	gorm.Model
-	OrderId        string `form:"OrderId"`
+	OrderId        string `form:"order_id"`
 	StartLatitude  string `gorm:"type:VARCHAR(100);not null"`
 	StartLongitude string `gorm:"type:VARCHAR(100);not null"`
 	EndLatitude    string `gorm:"type:VARCHAR(100);not null"`

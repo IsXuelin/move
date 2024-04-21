@@ -8,7 +8,7 @@ const (
 	STATUS_FINISHED   = 2
 )
 
-var statusText = map[int]string{
+var StatusText = map[int]string{
 	STATUS_UNASSIGNED: "UNASSIGNED",
 	STATUS_TAKEN:      "TAKEN",
 	STATUS_FINISHED:   "FINISHED",
